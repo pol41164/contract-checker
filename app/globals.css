@@ -1,26 +1,142 @@
 @import "tailwindcss";
 
+/*
+ * 設計系統：紙張 × 墨色 × 朱砂印章
+ * 所有顏色都從這裡的變數來，深色模式只要改這一份
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --paper: #f7f4ee;
+  --surface: #fffdf9;
+  --sunken: #efeae1;
+  --ink: #1b1a17;
+  --ink-soft: #57534b;
+  --ink-faint: #8c877c;
+  --line: #e2dccf;
+  --line-strong: #cfc7b7;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --seal: #b23a2e;
+  --seal-strong: #962d22;
+  --seal-soft: #f5e1dc;
+
+  --risk-high: #b23a2e;
+  --risk-high-soft: #f5e1dc;
+  --risk-medium: #9a6410;
+  --risk-medium-soft: #f4e8d2;
+  --risk-low: #4a6e55;
+  --risk-low-soft: #e2ebe3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #141311;
+    --surface: #1c1b18;
+    --sunken: #23211e;
+    --ink: #ede8de;
+    --ink-soft: #b4ada0;
+    --ink-faint: #7f796e;
+    --line: #2f2c27;
+    --line-strong: #444037;
+
+    --seal: #e0604f;
+    --seal-strong: #ec7868;
+    --seal-soft: #3a1e1a;
+
+    --risk-high: #ec7868;
+    --risk-high-soft: #3a1e1a;
+    --risk-medium: #dba64a;
+    --risk-medium-soft: #352a17;
+    --risk-low: #8db897;
+    --risk-low-soft: #1f2b22;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-seal: var(--seal);
+  --color-seal-strong: var(--seal-strong);
+  --color-seal-soft: var(--seal-soft);
+  --color-risk-high: var(--risk-high);
+  --color-risk-high-soft: var(--risk-high-soft);
+  --color-risk-medium: var(--risk-medium);
+  --color-risk-medium-soft: var(--risk-medium-soft);
+  --color-risk-low: var(--risk-low);
+  --color-risk-low-soft: var(--risk-low-soft);
+
+  /* 拉丁字用 Geist，中文落到思源黑體；標題用思源宋體 */
+  --font-sans: var(--font-geist-sans), var(--font-noto-sans-tc), "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-serif: var(--font-noto-serif-tc), "Songti TC", "PMingLiU", serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-stamp: stamp 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) 0.6s both;
+  --animate-scan: scan 2.4s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.6) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+}
+
+::selection {
+  background: var(--seal-soft);
+  color: var(--ink);
+}
+
+/* 紙張質感：極淡的網點 */
+.paper-grain {
+  background-image: radial-gradient(color-mix(in oklab, var(--ink) 7%, transparent) 0.6px, transparent 0.6px);
+  background-size: 14px 14px;
 }
